@@ -1,7 +1,6 @@
 class NacivtController < ApplicationController
 
-	def index
-		render json: "success."
+	def main
 	end
 
 end
