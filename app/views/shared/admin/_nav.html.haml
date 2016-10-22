@@ -2,23 +2,26 @@
   .container
     .navbar-header
       .strong
-        %a.navbar-brand{href:"#", style: "font-size:25px;"} NACIVT
+        %a.navbar-brand{href:"#", style: "font-size:25px;"} NACIVT (admin)
 
     - if current_user
       %ul.nav.navbar-nav
         %li
-          = link_to "Home", root_path
+          = link_to "Tournaments", admin_tournaments_path
         %li
-          = link_to "Clubs", clubs_path
+          = link_to "Clubs", admin_clubs_path
         %li
-          = link_to "Tournaments", tournaments_path
+          = link_to "Teams", admin_teams_path
+        %li
+          = link_to "Users", admin_users_path
+        
       %ul.nav.navbar-nav.navbar-right
         %li.dropdown
           %a.dropdown-toggle{role: "button", data: {toggle: "dropdown"}}
             = current_user.name
             %span.caret
           %ul.dropdown-menu
-            %li= link_to "Manage Profile", user_path(current_user)
+            %li= link_to "Non-admin site", root_path
             %li
             %li.divider{role: "separator"}
             %li= link_to "Logout", logout_path, method: :delete

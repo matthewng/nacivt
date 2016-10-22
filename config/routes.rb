@@ -13,6 +13,11 @@ Rails.application.routes.draw do
   resources :users
 
   namespace :admin do
+    root 'clubs#index'
+    resources :clubs
+    resources :teams
+    resources :tournaments
+    resources :users
   end
 
 end

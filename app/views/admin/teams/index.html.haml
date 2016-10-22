@@ -1,0 +1,19 @@
+%h1 Listing Teams
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @admin_teams.each do |admin_team|
+      %tr
+        %td= link_to 'Show', admin_team
+        %td= link_to 'Edit', edit_admin_team_path(admin_team)
+        %td= link_to 'Destroy', admin_team, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Team', new_admin_team_path

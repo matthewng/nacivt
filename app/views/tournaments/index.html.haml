@@ -1,0 +1,19 @@
+.container
+  .page-header
+    %h1 {{ @tournament.name }}
+  %div
+    %dl.dl-horizontal
+      %dt Location:
+      %dd {{ @tournament.host_city }}
+      %dt Date of tournament:
+      %dd {{ date_create(@tournament.date_start)-&gt;format("F d") }} - {{ date_create(@tournament.date_end)-&gt;format("F d, Y") }}
+      %dt Registration deadline:
+      %dd {{ date_create(@tournament.deadline)-&gt;format("F d, Y") }}
+  %br/
+  %hr/
+  %div
+    %h3 Registered teams ({{ count(@teams) }})
+    %ul
+      %repeat{:group => "{{ @teams }}", :value => "{{ @team }}"}
+        %li
+          %a{:href => "/team/{{ @team.team_id }}"} {{ @team.name }}

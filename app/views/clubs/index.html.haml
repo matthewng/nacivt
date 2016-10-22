@@ -1,0 +1,109 @@
+.container
+  .page-header
+    %h1 {{ @club.name }}
+    %small
+      Managed by
+      %a{:href => "/profile/{{ @clubManager.profile_id }}"} {{ @clubManager.first_name . ' ' . @clubManager.last_name }}
+  %br/
+  %div
+    %h3 Tournaments
+    %div Registered in {{ count(@teamsPerTournament) }} tournament(s):
+    %br/
+    %repeat{:group => "{{ @teamsPerTournament }}", :key => "{{ @tournament_name }}", :value => "{{ @teams }}"}
+      %div
+        %a{:href => "/tournament/{{ @teams[0].tournament_id }}"} {{ @tournament_name }}
+        %ul
+          %repeat{:group => "{{ @teams }}", :value => "{{ @team }}"}
+            %li
+              %a{:href => "/team/{{ @team.team_id }}"} {{ @team.name }}
+        %br/
+    / if club manager
+    %check{:if => "{{ @isClubManager }}"}
+      %br/
+      .row
+        .col-sm-8
+          %form{:action => "/team", :method => "POST"}
+            %select.form-control{:name => "tournament_id"}
+              %repeat{:group => "{{ @tournaments }}", :value => "{{ @tournament }}"}
+                %option{:value => "{{ @tournament['tournament_id'] }}"} {{ @tournament.name }}
+            %input.form-control{:name => "name", :placeholder => "Team Name", :type => "text"}/
+            %button.form-control.btn-primary{:type => "submit"} Register New Team
+        .col-sm-4
+      %br/
+      %br/
+    %br/
+    %hr
+      %div
+        %h3
+          Members
+          %small
+            There are {{ count(@members) }} members
+            %check{:if => "{{ @isClubManager }}"}> ({{ count(@pendings) }} pending)
+            \:
+        %br/
+        .row
+          .col-sm-offset-1.col-sm-10
+            %table.table
+              %check{:if => "{{ @isClubManager }}"}
+                %repeat{:group => "{{ @pendings }}", :value => "{{ @pending }}"}
+                  %tr
+                    %td
+                      %a{:href => "/profile/{{ @pending.profile_id }}"} {{ @pending.first_name . ' ' . @pending.last_name }}
+                    %check{:if => "{{ @isClubManager }}"}
+                      %td
+                        %form{:action => "/club/accept", :method => "POST"}
+                          %input{:name => "account_id", :type => "hidden", :value => "{{ @pending.account_id }}"}/
+                          %input.form-control.btn-success{:type => "submit", :value => "Accept request"}/
+                      %td
+                        %form{:action => "/club/reject", :method => "POST"}
+                          %input{:name => "account_id", :type => "hidden", :value => "{{ @pending.account_id }}"}/
+                          %input.form-control.btn-danger{:type => "submit", :value => "Reject request"}/
+              %repeat{:group => "{{ @members }}", :value => "{{ @member }}"}
+                %tr
+                  %td
+                    %a{:href => "/profile/{{ @member.profile_id }}"} {{ @member.first_name . ' ' . @member.last_name }}
+                  %check{:if => "{{ @isClubManager }}"}
+                    %td
+                      %form{:action => "/club/reject", :method => "POST"}
+                        %input{:name => "account_id", :type => "hidden", :value => "{{ @member.account_id }}"}/
+                        %input.form-control.btn-danger{:type => "submit", :value => "Remove member"}/
+                    %td
+          .col-sm-1
+        %br/
+        %br/
+        %check{:if => "{{ @isClubMember  !@isClubManager }}"}
+          / if member
+          .row
+            .col-sm-offset-1.col-sm-6
+              %form{:action => "/club/leave", :method => "POST"}
+                %input.form-control.btn-danger{:type => "submit", :value => "Leave club"}/
+            .col-sm-5
+        %check{:if => "{{ @isPendingMember }}"}
+          / pending member
+          .row
+            .col-sm-offset-1.col-sm-6
+              %em Your membership request is still pending.
+            .col-sm-5
+          .row
+            .col-sm-offset-1.col-sm-6
+              %form{:action => "/club/leave", :method => "POST"}
+                %input.form-control.btn-danger{:type => "submit", :value => "Cancel Request"}/
+            .col-sm-5
+      %check{:if => "{{ @isClubManager }}"}
+        %br/
+        %hr
+          %h3 Administration
+          .row
+            .col-sm-offset-8.col-sm-1
+              %button#delete_club.btn.btn-danger{:type => "button"} DELETE CLUB
+          .col-sm-3
+    :javascript
+      $('#delete_club').on('click', function() {
+      	$.ajax({
+      		url:'/club',
+      		method:'DELETE',
+      		success: function() {
+      			window.location = '/';
+      		}
+      	});
+      });

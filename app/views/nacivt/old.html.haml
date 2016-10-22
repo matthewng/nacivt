@@ -1,0 +1,96 @@
+\:erb
+.page-header
+  %h1 NACIVT
+%br/
+.media
+  %span.glyphicon.glyphicon-flash.media-left.media-top{"aria-hidden" => "true", :style => "color:navy;font-size:100px;padding:0px 60px 0px 20px;"}
+  .media-body.media-middle
+    %h3 Upcoming Tournaments:
+    %repeat{:group => "{{ @tournaments }}", :value => "{{ @tournament }}"}
+      %div
+        %a{:href => "/tournament/{{ @tournament.tournament_id }}"} {{ @tournament.name }}
+        ({{ date_format(date_create(@tournament.date_start), 'F d, Y') }})
+%br/
+%br/
+%hr/
+%br/
+%br/
+.media
+  %span.glyphicon.glyphicon-user.media-left.media-middle{"aria-hidden" => "true", :style => "color:navy;font-size:100px;padding:0px 60px 0px 20px;"}
+  .media-body
+    %h3.media-heading {{ @profile.first_name }}'s Profile:
+    %div
+      %a{:href => "/profile"} Update your basic informtion
+%br/
+%br/
+%hr/
+%br/
+%br/
+%check{:if => "{{ @club }}"}
+  %true
+    .media
+      %span.glyphicon.glyphicon-tower.media-left.media-middle{"aria-hidden" => "true", :style => "color:navy;font-size:100px;padding:0px 60px 0px 20px;"}
+      .media-body
+        %h3 Your Club and Teams:
+        %div
+          %check{:if => "{{ @isActiveMember }}"}
+            %true
+              %div
+                You {{ @isClubManager?'manage':'are a member of' }} the
+                %a{:href => "/club/{{ @club.club_id }}"} {{ @club.name }}
+                club.
+                %check{:if => "{{ @numPendingMembers > 0 }}"}
+                  %strong ({{ @numPendingMembers }} members pending)
+              %br/
+              %repeat{:group => "{{ @teams }}", :value => "{{ @team }}"}
+                %div
+                  You are on
+                  %a{:href => "/team/{{ @team.team_id }}"} {{ @team.name }}
+                  for the
+                  = succeed "." do
+                    %a{:href => "/tournament/{{ @team.tournament_id }}"} {{ @team.tournament_name }}
+        %false
+          %div
+            Your request to
+            %a{:href => "/club/{{ @club.club_id }}"} {{ @club.name }}
+            club is still pending.
+  %false
+    .media
+      %span.glyphicon.glyphicon-tower.media-left.media-middle{"aria-hidden" => "true", :style => "color:navy;font-size:100px;padding:0px 60px 0px 20px;"}
+      .media-body
+        %h3 Your Club and Teams:
+        %div
+          %em You are not part of any club.
+    %br/
+    %br/
+    .row
+      .col-sm-6
+        %h2
+          %small Either create a club
+        %div
+          %form.form-horizontal{:action => "/club", :method => "POST"}
+            .form-group
+              %label.col-sm-4.control-label{:for => "name"} Club name:
+              .col-sm-8
+                %input.form-control{:name => "name", :type => "text"}/
+            .form-group
+              %label.col-sm-4.control-label{:for => "name"} City:
+              .col-sm-8
+                %input.form-control{:name => "city", :type => "text"}/
+            .form-group
+              .col-sm-offset-4.col-sm-8
+                %button.form-control.btn-success{:type => "submit"} Create New Club
+      .col-sm-6
+        %h2
+          %small Or request to join a club
+        %div
+          %form.form-horizontal{:action => "/club/join", :method => "POST"}
+            .form-group
+              %label.col-sm-4.control-label{:for => "name"} Club name:
+              .col-sm-8
+                %select.form-control{:name => "club_id"}
+                  %repeat{:group => "{{ @clubs }}", :value => "{{ @club }}"}
+                    %option{:value => "{{ @club.club_id }}"} {{ @club.name }}
+            .form-group
+              .col-sm-offset-4.col-sm-8
+                %button.form-control.btn-success{:type => "submit"} Request to join club

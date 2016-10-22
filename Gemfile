@@ -21,6 +21,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'haml'
+gem "haml-rails", "~> 0.9"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
