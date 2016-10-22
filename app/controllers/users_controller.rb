@@ -16,8 +16,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      redirect_to @user
+      redirect_to root_path
     else
+      flash.now[:danger] = 'Unable to register. Please try again or contact an admin.'
       render 'new'
     end
   end

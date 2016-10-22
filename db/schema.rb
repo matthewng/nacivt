@@ -11,24 +11,81 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161020152212) do
+ActiveRecord::Schema.define(version: 20161022052835) do
 
   create_table "clubs", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "teams", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "club_id"
+    t.integer  "tournament_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
+  add_index "teams", ["club_id"], name: "index_teams_on_club_id"
+  add_index "teams", ["tournament_id"], name: "index_teams_on_tournament_id"
+
   create_table "tournaments", force: :cascade do |t|
+    t.string   "name",            null: false
+    t.string   "host_city"
+    t.integer  "host_club_id"
+    t.string   "address",         null: false
+    t.date     "start",           null: false
+    t.date     "end",             null: false
+    t.date     "signup_deadline", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name",      null: false
+    t.string   "first_name",                null: false
     t.string   "last_name"
-    t.string   "email",           null: false
-    t.string   "password_digest", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "email",                     null: false
+    t.string   "password_digest",           null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "gender"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zipcode"
+    t.string   "country"
+    t.string   "phone_home"
+    t.string   "phone_mobile"
+    t.date     "birthday"
+    t.string   "school"
+    t.string   "education_level"
+    t.string   "occupation"
+    t.integer  "salary"
+    t.string   "ethnicity"
+    t.boolean  "has_verification"
+    t.string   "medical_conditions"
+    t.string   "allergies"
+    t.string   "contact_parent_name"
+    t.string   "contact_parent_address"
+    t.string   "contact_parent_phone"
+    t.string   "contact_parent_email"
+    t.string   "contact_emergency_name"
+    t.string   "contact_emergency_address"
+    t.string   "contact_emergecy_phone"
+    t.string   "contact_emergecy_email"
+    t.string   "contact_emergecy_relation"
+    t.integer  "club_id"
   end
+
+  add_index "users", ["club_id"], name: "index_users_on_club_id"
+
+  create_table "users_teams", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "team_id"
+  end
+
+  add_index "users_teams", ["team_id"], name: "index_users_teams_on_team_id"
+  add_index "users_teams", ["user_id"], name: "index_users_teams_on_user_id"
 
 end
