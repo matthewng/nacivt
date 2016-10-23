@@ -2,8 +2,8 @@ require 'securerandom'
 
 class Team < ActiveRecord::Base
 
-  before_create do
-    self.uuid = SecureRandom.uuid if uuid.blank?
-  end
+  belongs_to :tournament
+  belongs_to :club
+  has_many :users
 
 end

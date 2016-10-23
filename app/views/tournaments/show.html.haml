@@ -1,0 +1,17 @@
+.container
+  .page-header
+    %h1= @tournament.name
+  %div
+    %dl.dl-horizontal
+      %dt Location:
+      %dd= @tournament.host_city
+      %dt Date of tournament:
+      %dd= "#{@tournament.date_start} - #{@tournament.date_end}"
+  %br/
+  %hr/
+  %div
+    %h3= "Registered teams (#{@tournament.teams.count})"
+    %ul
+      - @tournament.teams.each do |team|
+        %li
+          %a{:href => "/team/#{team.id}"} {{ team.name }}

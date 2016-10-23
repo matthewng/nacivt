@@ -1,6 +1,8 @@
 .container
   .page-header
     %h1= @user.name
+    %a{href: edit_user_path(@user)}
+      %button.btn.btn-success Edit
 
   .media
     %span.glyphicon.glyphicon-user.media-left{ style:"color:navy;font-size:140px;padding-left:20px;"}

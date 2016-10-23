@@ -24,8 +24,8 @@ class AddUserProfileCols < ActiveRecord::Migration
     add_column :users, :contact_parent_email, :string
     add_column :users, :contact_emergency_name, :string
     add_column :users, :contact_emergency_address, :string
-    add_column :users, :contact_emergecy_phone, :string
-    add_column :users, :contact_emergecy_email, :string
-    add_column :users, :contact_emergecy_relation, :string
+    add_column :users, :contact_emergency_phone, :string
+    add_column :users, :contact_emergency_email, :string
+    add_column :users, :contact_emergency_relation, :string
   end
 end

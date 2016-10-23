@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }
 
+  has_many :clubs
+  has_many :teams
+
   def name
     [first_name, last_name].compact.join(" ")
   end

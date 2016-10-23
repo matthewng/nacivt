@@ -1,41 +1,136 @@
 .container
-	.page-header
-		%h1 Profile
+  .page-header
+    %h1 Profile
 
-	= form_tag edit_user_path, :method => :post, class: "form-horizontal" do
-		.form-group
+  = form_tag edit_user_path, :method => :post, class: "form-horizontal" do
+    .form-group
       %label.col-sm-3.control-label{:for => "first_name"} First Name:
       .col-sm-9
-        %input.form-control{:name => "first_name", :type => "text", :value => "{{ @profile.first_name }}"}/
+        %input.form-control{:name => "first_name", :type => "text", :value => @user.first_name}/
     .form-group
       %label.col-sm-3.control-label{:for => "last_name"} Last Name:
       .col-sm-9
-        %input.form-control{:name => "last_name", :type => "text", :value => "{{ @profile.last_name }}"}/
+        %input.form-control{:name => "last_name", :type => "text", :value => @user.last_name}/
     .form-group
       %label.col-sm-3.control-label{:for => "email"} Email:
       .col-sm-9
-        %input.form-control{:name => "email", :type => "email", :value => "{{ @account.email }}"}/
+        %input.form-control{:name => "email", :type => "email", :value => @user.email}/
     .form-group
       %label.col-sm-3.control-label{:for => "gender"} Gender:
       .col-sm-9
         %label.radio-inline
           %input{:name => "gender", :type => "radio", :value => "male"}>/
-          {{ (@profile.gender == 'MALE') ? 'checked' : '' }} /&gt;Male
+          Male
         %label.radio-inline
           %input{:name => "gender", :type => "radio", :value => "female"}>/
-          {{ (@profile.gender == 'FEMALE') ? 'checked' : '' }} /&gt;Female
+          Female
     .form-group
       %label.col-sm-3.control-label{:for => "address"} Address:
       .col-sm-9
-        %input.form-control{:name => "address", :type => "text", :value => "{{ @profile.address }}"}/
+        %input.form-control{:name => "address", :type => "text", :value => @user.address}/
     .form-group
       %label.col-sm-3.control-label{:for => "city"} City:
       .col-sm-9
-        %input.form-control{:name => "city", :type => "text", :value => "{{ @profile.city }}"}/
+        %input.form-control{:name => "city", :type => "text", :value => @user.city}/
     .form-group
       %label.col-sm-3.control-label{:for => "state"} State:
       .col-sm-9
         %select.form-control{:name => "state"}
-          %repeat{:group => "{{ @states }}", :value => "{{ @state }}"}
-            %option{:value => "{{ @state }}"}>
-            {{ (@profile.state == @state) ? 'selected' : '' }}&gt;{{ @state }}
+          %option{:value => ""}> State
+    .form-group
+      %label.col-sm-3.control-label{:for => "zip"} Zip:
+      .col-sm-9
+        %input.form-control{:name => "zip", :type => "text", :value => @user.zipcode}/
+    .form-group
+      %label.col-sm-3.control-label{:for => "country"} Country:
+      .col-sm-9
+        %select.form-control{:name => "country"}
+          %option{:value => ""}> Country
+    .form-group
+      %label.col-sm-3.control-label{:for => "phone_home"} Home phone:
+      .col-sm-9
+        %input.form-control{:name => "phone_home", :type => "tel", :value => @user.phone_home}/
+    .form-group
+      %label.col-sm-3.control-label{:for => "phone_mobile"} Mobile phone:
+      .col-sm-9
+        %input.form-control{:name => "phone_mobile", :type => "tel", :value => @user.phone_mobile}/
+    .form-group
+      %label.col-sm-3.control-label{:for => "dob"} Date of Birth:
+      .col-sm-9
+        %input.form-control{:name => "dob", :type => "date", :value => @user.birthday}/
+    %br/
+    %hr
+      %h3 Background
+      .form-group
+        %label.col-sm-3.control-label{:for => "school_name"} Current School:
+        .col-sm-9
+          %input.form-control{:name => "school_name", :type => "text", :value => @user.school}/
+      .form-group
+        %label.col-sm-3.control-label{:for => "education_level"} Level of Education:
+        .col-sm-9
+          %select.form-control{:name => "education_level"}
+            %option{:value => ""}> Education Level
+    .form-group
+      %label.col-sm-3.control-label{:for => "occupation"} Occupation:
+      .col-sm-9
+        %input.form-control{:name => "occupation", :type => "text", :value => @user.occupation}/
+    .form-group
+      %label.col-sm-3.control-label{:for => "salary_range"} Salary Range:
+      .col-sm-9
+        %select.form-control{:name => "salary_range"}
+          %option{:value => "50000"} $0 - $50000
+          %option{:value => "100000"} $50000 - $100000
+          %option{:value => "150000"} $100000 - $150000
+          %option{:value => "150000_PLUS"} $150000+
+          %option{:value => "DECLINE"} Prefer not to say
+    .form-group
+      %label.col-sm-3.control-label{:for => "ethnicity"} Ethnicity:
+      .col-sm-8
+        %input.form-control{:name => "ethnicity", :type => "text", :value => @user.ethnicity}/
+      .col-sm-1
+        - if @user.has_verification
+          %span.glyphicon.glyphicon-ok-sign.verified{"aria-hidden" => "true", :title => "The NACIVT committee has verified this information"}
+    .form-group
+      %label.col-sm-3.control-label{:for => "medical"} Medical Conditions:
+      .col-sm-9
+        %textarea.form-control{:name => "medical"}= @user.medical_conditions
+    .form-group
+      %label.col-sm-3.control-label{:for => "allergies"} Allergies:
+      .col-sm-9
+        %textarea.form-control{:name => "allergies"}= @user.allergies
+    %br/
+    %hr/
+    %h3 Contact Information
+    .form-group
+      %label.col-sm-3.control-label{:for => "parent_name"} Parent/Guardian's Name:
+      .col-sm-9
+        %input.form-control{:name => "parent_name", :type => "text", :value => @user.contact_parent_name}/
+    .form-group
+      %label.col-sm-3.control-label{:for => "parent_address"} Parent/Guardian's Address:
+      .col-sm-9
+        %input.form-control{:name => "parent_address", :type => "text", :value => @user.contact_parent_address}/
+    .form-group
+      %label.col-sm-3.control-label{:for => "parent_phone"} Parent/Guardian's Phone:
+      .col-sm-9
+        %input.form-control{:name => "parent_phone", :type => "tel", :value => @user.contact_parent_phone}/
+    .form-group
+      %label.col-sm-3.control-label{:for => "parent_email"} Parent/Guardian's Email:
+      .col-sm-9
+        %input.form-control{:name => "parent_email", :type => "email", :value => @user.contact_parent_email}/
+    .form-group
+      %label.col-sm-3.control-label{:for => "emergency_name"} Emergency Contact's Name:
+      .col-sm-9
+        %input.form-control{:name => "emergency_name", :type => "text", :value => @user.contact_emergency_name}/
+    .form-group
+      %label.col-sm-3.control-label{:for => "emergency_phone"} Emergency Contact's Phone:
+      .col-sm-9
+        %input.form-control{:name => "emergency_phone", :type => "tel", :value => @user.contact_emergency_phone}/
+    .form-group
+      %label.col-sm-3.control-label{:for => "emergency_relation"} Relation to Emergency Contact:
+      .col-sm-9
+        %input.form-control{:name => "emergency_relation", :type => "text", :value => @user.contact_emergency_relation}/
+    %br/
+    %br/
+    .form-group
+      .col-sm-offset-3.col-sm-9
+        %button.form-control.btn-success{:type => "submit"} Submit

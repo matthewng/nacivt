@@ -1,45 +1,44 @@
 .container
   .page-header
-    %h1 {{ @club.name }}
-    %small
-      Managed by
-      %a{:href => "/profile/{{ @clubManager.profile_id }}"} {{ @clubManager.first_name . ' ' . @clubManager.last_name }}
+    %h1= @club.name
+    - if @club.user.present?
+      %small
+        Managed by
+        = link_to @club.user.name, user_path(@club.user)
   %br/
   %div
     %h3 Tournaments
-    %div Registered in {{ count(@teamsPerTournament) }} tournament(s):
+    %div Registered in tournament(s):
     %br/
-    %repeat{:group => "{{ @teamsPerTournament }}", :key => "{{ @tournament_name }}", :value => "{{ @teams }}"}
+    - @teams.each do |team|
       %div
-        %a{:href => "/tournament/{{ @teams[0].tournament_id }}"} {{ @tournament_name }}
+        %a{:href => "/tournament/#{team.tournament_id}"}= team.tournament.name
         %ul
-          %repeat{:group => "{{ @teams }}", :value => "{{ @team }}"}
-            %li
-              %a{:href => "/team/{{ @team.team_id }}"} {{ @team.name }}
+          %li
+            %a{:href => "/team/#{team.id}"}= team.name
         %br/
+
     / if club manager
-    %check{:if => "{{ @isClubManager }}"}
-      %br/
-      .row
-        .col-sm-8
-          %form{:action => "/team", :method => "POST"}
-            %select.form-control{:name => "tournament_id"}
-              %repeat{:group => "{{ @tournaments }}", :value => "{{ @tournament }}"}
-                %option{:value => "{{ @tournament['tournament_id'] }}"} {{ @tournament.name }}
-            %input.form-control{:name => "name", :placeholder => "Team Name", :type => "text"}/
-            %button.form-control.btn-primary{:type => "submit"} Register New Team
-        .col-sm-4
-      %br/
-      %br/
+    %br/
+    .row
+      .col-sm-8
+        %form{:action => "/team", :method => "POST"}
+          %select.form-control{:name => "tournament_id"}
+            - @tournaments.each do |tournament|
+              %option{:value => tournament.id} {{ tournament.name }}
+          %input.form-control{:name => "name", :placeholder => "Team Name", :type => "text"}/
+          %button.form-control.btn-primary{:type => "submit"} Register New Team
+      .col-sm-4
+    %br/
+    %br/
+    
     %br/
     %hr
       %div
         %h3
           Members
           %small
-            There are {{ count(@members) }} members
-            %check{:if => "{{ @isClubManager }}"}> ({{ count(@pendings) }} pending)
-            \:
+            There are {{ count(@members) }} members ({{ count(@pendings) }} pending):
         %br/
         .row
           .col-sm-offset-1.col-sm-10

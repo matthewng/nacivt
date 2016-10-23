@@ -14,7 +14,7 @@
  *= require_self
  */
 
- body {
+body {
   padding-top: 100px;
   padding-bottom: 40px;
   background-color: #eee;
@@ -76,3 +76,6 @@ table {
   padding:5px;
   font-size:20px;
 }
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
