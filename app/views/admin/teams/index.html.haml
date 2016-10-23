@@ -8,12 +8,12 @@
       %th
 
   %tbody
-    - @admin_teams.each do |admin_team|
+    - @teams.each do |team|
       %tr
-        %td= link_to 'Show', admin_team
-        %td= link_to 'Edit', edit_admin_team_path(admin_team)
-        %td= link_to 'Destroy', admin_team, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to team.name, admin_team_path(team), {class: "btn btn-link"}
+        %td= link_to 'Edit', edit_admin_team_path(team), {class: "btn btn-link"}
+        %td= link_to 'Destroy', admin_team_path(team), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link"
 
 %br
 
-= link_to 'New Team', new_admin_team_path
+= link_to 'New Team', new_admin_team_path, {class: "btn btn-default"}

@@ -1,11 +1,16 @@
-= form_for(@admin_club) do |f|
-  - if @admin_club.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@admin_club.errors.count, "error")
-        prohibited this club from being saved:
-      %ul
-        - @admin_club.errors.full_messages.each do |message|
-          %li= message
-  .actions
-    = f.submit
+- if @club.errors.any?
+  .row
+    .col-md-12
+      #error_explanation
+        %h2
+          = "#{pluralize(@club.errors.count, "error")} prohibited this club from being saved:"
+        %ul
+          - @club.errors.full_messages.each do |message|
+            %li= message
+
+.row
+  .col-md-6
+    = simple_form_for [:admin, @club] do |f|
+      = f.input :name, label: 'Name', error: 'Name is mandatory, please specify one.'
+      = f.association :users, as: :check_boxes
+      = f.button :submit

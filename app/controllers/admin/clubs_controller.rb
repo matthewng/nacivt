@@ -1,10 +1,10 @@
 class Admin::ClubsController < Admin::ApplicationController
-  before_action :set_admin_club, only: [:show, :edit, :update, :destroy]
+  before_action :set_club, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/clubs
   # GET /admin/clubs.json
   def index
-    @admin_clubs = Club.all
+    @clubs = Club.all
   end
 
   # GET /admin/clubs/1
@@ -14,7 +14,7 @@ class Admin::ClubsController < Admin::ApplicationController
 
   # GET /admin/clubs/new
   def new
-    @admin_club = Club.new
+    @club = Club.new
   end
 
   # GET /admin/clubs/1/edit
@@ -24,15 +24,15 @@ class Admin::ClubsController < Admin::ApplicationController
   # POST /admin/clubs
   # POST /admin/clubs.json
   def create
-    @admin_club = Club.new(admin_club_params)
+    @club = Club.new(club_params)
 
     respond_to do |format|
-      if @admin_club.save
-        format.html { redirect_to @admin_club, notice: 'Club was successfully created.' }
-        format.json { render :show, status: :created, location: @admin_club }
+      if @club.save
+        format.html { redirect_to [:admin, @club], notice: 'Club was successfully created.' }
+        format.json { render :show, status: :created, location: @club }
       else
         format.html { render :new }
-        format.json { render json: @admin_club.errors, status: :unprocessable_entity }
+        format.json { render json: @club.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -41,12 +41,12 @@ class Admin::ClubsController < Admin::ApplicationController
   # PATCH/PUT /admin/clubs/1.json
   def update
     respond_to do |format|
-      if @admin_club.update(admin_club_params)
-        format.html { redirect_to @admin_club, notice: 'Club was successfully updated.' }
-        format.json { render :show, status: :ok, location: @admin_club }
+      if @club.update(club_params)
+        format.html { redirect_to [:admin, @club], notice: 'Club was successfully updated.' }
+        format.json { render :show, status: :ok, location: @club }
       else
         format.html { render :edit }
-        format.json { render json: @admin_club.errors, status: :unprocessable_entity }
+        format.json { render json: @club.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -54,7 +54,7 @@ class Admin::ClubsController < Admin::ApplicationController
   # DELETE /admin/clubs/1
   # DELETE /admin/clubs/1.json
   def destroy
-    @admin_club.destroy
+    @club.destroy
     respond_to do |format|
       format.html { redirect_to admin_clubs_url, notice: 'Club was successfully destroyed.' }
       format.json { head :no_content }
@@ -63,12 +63,12 @@ class Admin::ClubsController < Admin::ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_admin_club
-      @admin_club = Admin::Club.find(params[:id])
+    def set_club
+      @club = Club.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def admin_club_params
-      params.fetch(:admin_club, {})
+    def club_params
+      params.require(:club).permit(:name, user_ids:[])
     end
 end

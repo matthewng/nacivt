@@ -1,4 +1,4 @@
-%h1 Listing Tournaments
+%h1 Listing tournaments
 
 %table
   %thead
@@ -8,12 +8,12 @@
       %th
 
   %tbody
-    - @admin_tournaments.each do |admin_tournament|
+    - @tournaments.each do |tournament|
       %tr
-        %td= link_to 'Show', admin_tournament
-        %td= link_to 'Edit', edit_admin_tournament_path(admin_tournament)
-        %td= link_to 'Destroy', admin_tournament, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to tournament.name, admin_tournament_path(tournament), {class: "btn btn-link"}
+        %td= link_to 'Edit', edit_admin_tournament_path(tournament), {class: "btn btn-link"}
+        %td= link_to 'Destroy', admin_tournament_path(tournament), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link"
 
 %br
 
-= link_to 'New Tournament', new_admin_tournament_path
+= link_to 'New tournament', new_admin_tournament_path, {class: "btn btn-default"}

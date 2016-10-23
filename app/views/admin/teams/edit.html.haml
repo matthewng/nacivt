@@ -2,6 +2,9 @@
 
 = render 'form'
 
-= link_to 'Show', @admin_team
-\|
-= link_to 'Back', admin_teams_path
+%br/
+%hr/
+%br/
+
+= link_to 'Show', admin_team_path(@team), {class: "btn btn-default"}
+= link_to 'Back', admin_teams_path, {class: "btn btn-default"}

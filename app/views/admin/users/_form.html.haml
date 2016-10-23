@@ -1,10 +1,18 @@
-= form_for @admin_user do |f|
-  - if @admin_user.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@admin_user.errors.count, "error")} prohibited this user from being saved:"
-      %ul
-        - @admin_user.errors.full_messages.each do |msg|
-          %li= msg
+- if @user.errors.any?
+  .row
+    .col-md-12
+      #error_explanation
+        %h2
+          = "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+        %ul
+          - @user.errors.full_messages.each do |message|
+            %li= message
 
-  .actions
-    = f.submit 'Save'
+.row
+  .col-md-6
+    = simple_form_for [:admin, @user] do |f|
+      = f.input :first_name, label: 'First name'
+      = f.input :last_name, label: 'Last name'
+      = f.input :email, label: 'Email'
+      = f.association :club
+      = f.button :submit

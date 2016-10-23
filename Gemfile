@@ -16,6 +16,8 @@ gem 'jquery-rails'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'
 
+gem 'simple_form'
+
 # Turbolinks makes following links in your web application faster. Read more: htt$gem 'turbolinks'
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

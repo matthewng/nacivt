@@ -1,6 +1,6 @@
 %p#notice= notice
 
+%h1= @tournament.name
 
-= link_to 'Edit', edit_admin_tournament_path(@admin_tournament)
-\|
-= link_to 'Back', admin_tournaments_path
+= link_to 'Edit', edit_admin_tournament_path(@tournament), {class: "btn btn-default"}
+= link_to 'Back', admin_tournaments_path, {class: "btn btn-default"}

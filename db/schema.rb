@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161022052835) do
+ActiveRecord::Schema.define(version: 20161023164716) do
 
   create_table "clubs", force: :cascade do |t|
     t.string   "name"
@@ -32,6 +32,14 @@ ActiveRecord::Schema.define(version: 20161022052835) do
 
   add_index "teams", ["club_id"], name: "index_teams_on_club_id"
   add_index "teams", ["tournament_id"], name: "index_teams_on_tournament_id"
+
+  create_table "teams_users", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "team_id"
+  end
+
+  add_index "teams_users", ["team_id"], name: "index_teams_users_on_team_id"
+  add_index "teams_users", ["user_id"], name: "index_teams_users_on_user_id"
 
   create_table "tournaments", force: :cascade do |t|
     t.string   "name",       null: false
@@ -83,13 +91,5 @@ ActiveRecord::Schema.define(version: 20161022052835) do
   end
 
   add_index "users", ["club_id"], name: "index_users_on_club_id"
-
-  create_table "users_teams", id: false, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "team_id"
-  end
-
-  add_index "users_teams", ["team_id"], name: "index_users_teams_on_team_id"
-  add_index "users_teams", ["user_id"], name: "index_users_teams_on_user_id"
 
 end

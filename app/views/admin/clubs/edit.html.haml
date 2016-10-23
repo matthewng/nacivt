@@ -1,5 +1,10 @@
 %h1 Editing Club
+
 = render 'form'
-= link_to 'Show', @admin_club
-|
-= link_to 'Back', admin_clubs_path
+
+%br/
+%hr/
+%br/
+
+= link_to 'Show', admin_club_path(@club), {class: "btn btn-default"}
+= link_to 'Back', admin_clubs_path, {class: "btn btn-default"}
